@@ -12,13 +12,29 @@
 
 
 /**
- *  添加或更新 人的模型到数据中
+ *  添加或更新 一条数据到数据库中
  *
  *  @return 成功或失败
  */
 - (BOOL) saveToDataBase;
 
 
+/**
+ *  插入一条数据到数据库中
+ *
+ *  @return 成功或失败
+ */
+- (BOOL) insertToDataBase;
+
+
+/**
+ *  根据名字修改数据库中的那条数据
+ *
+ *  @param lastName 修改之前的名字
+ *
+ *  @return 成功或失败
+ */
+- (BOOL) updateToDataBaseWithName:(NSString *) lastName;
 
 
 /**
@@ -27,6 +43,7 @@
  *  @return 所有的人数组
  */
 + (NSArray *) getAllPersonFromDataBase;
+
 
 /**
  *  根据名字从数据库中查找人的信息
@@ -37,6 +54,7 @@
  */
 + (NSArray *) getPersonFromDataBasewithName:(NSString *) name;
 
+
 /**
  *  根据性别从数据库中查找人的信息
  *
@@ -45,6 +63,8 @@
  *  @return 人的数组
  */
 + (NSArray *) getPersonFromDataBasewithSex:(NSString *) sex;
+
+
 /**
  *  根据名字从数据库中删除信息
  *

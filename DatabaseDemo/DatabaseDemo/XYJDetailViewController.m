@@ -11,6 +11,7 @@
 #import "XYJPerson+database.h"
 
 @interface XYJDetailViewController () <UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate>
+
 @property (weak, nonatomic) IBOutlet UITextField *nameTF;
 @property (weak, nonatomic) IBOutlet UITextField *ageTF;
 @property (weak, nonatomic) IBOutlet UITextField *sexTF;
@@ -260,28 +261,44 @@
             //当前时间的时间戳，当前时间到1970年1月1日有多少秒
             person.updateDate = [[NSDate date] timeIntervalSince1970];
             
+            //把选择的图片保存到本地，并获取它的路径
+            person.headImagePath = [self imageWriteToSandBox:person];
+            
+            NSLog(@"person : %@",person);
+            
+            BOOL ret = [person insertToDataBase];
+            
+            //这样也可以
+            //BOOL ret = [person saveToDataBase];
+            
+            if (ret) {
+                
+                NSLog(@"插入数据 到数据库成功");
+                
+            } else {
+                NSLog(@"插入数据 到数据库失败");
+            }
+
+            
         }
         else
         {
             person.updateDate = self.updateDate;
-            if (![self.lastName isEqualToString:person.name]) {
-                
-                //修改名字后，删除修改名字前的数据
-                [XYJPerson deleteFromDataBaseByName:self.lastName];
+            
+            //把选择的图片保存到本地，并获取它的路径
+            person.headImagePath = [self imageWriteToSandBox:person];
+            
+            NSLog(@"更新 person : %@",person);
+
+            
+            if ([person updateToDataBaseWithName:self.lastName]) {
+                NSLog(@"更新数据 到数据库成功");
+            }
+            else {
+                NSLog(@"更新数据 到数据库失败");
             }
             
         }
-        //把选择的图片保存到本地，并获取它的路径
-        person.headImagePath = [self imageWriteToSandBox:person];
-        
-        NSLog(@"person : %@",person);
-        
-        //把用户信息保存到数据库中
-        if ([person saveToDataBase]) {
-            
-            NSLog(@"保存模型 到数据库成功");
-        }
-        
         
         dispatch_async(dispatch_get_main_queue(), ^{
             
@@ -336,6 +353,7 @@
     }
     return _imagePicker;
 }
+
 
 
 @end

@@ -17,9 +17,6 @@
 @property (nonatomic,copy) NSString *  phoneNumber;  //!<  手机号
 @property (nonatomic,copy) NSString *  weixinNumber;  //!<  微信号
 @property (nonatomic,copy) NSString * headImagePath;  //!<  头像
-/**
- *  时间戳
- */
-@property (nonatomic,assign) NSTimeInterval updateDate;
+@property (nonatomic,assign) NSTimeInterval updateDate; //!<  添加的时间
 
 @end

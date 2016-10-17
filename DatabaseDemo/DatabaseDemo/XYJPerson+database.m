@@ -26,6 +26,36 @@
     return ret;
 }
 
+- (BOOL)insertToDataBase
+{
+    NSString * replaceSQl = @"INSERT INTO T_PersonList(name, age, sex, qqNumber, phoneNumber, weixinNumber, headImagePath ,updateDate) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+    
+    __block BOOL ret = NO;
+    
+    [[XYJDatabaseManager shareManager].databaseQueue inDatabase:^(FMDatabase *db) {
+        
+        ret = [db executeUpdate:replaceSQl,self.name,@(self.age),self.sex,self.QQnumber,self.phoneNumber,self.weixinNumber,self.headImagePath,@(self.updateDate)];
+    }];
+    
+    return ret;
+
+}
+
+- (BOOL)updateToDataBaseWithName:(NSString *)lastName
+{
+    NSString * replaceSQl = @"UPDATE T_PersonList SET name = ?, age = ?, sex = ?, qqNumber = ?, phoneNumber = ?, weixinNumber  = ?, headImagePath = ? ,updateDate= ? WHERE name = ?";
+    
+    __block BOOL ret = NO;
+    
+    [[XYJDatabaseManager shareManager].databaseQueue inDatabase:^(FMDatabase *db) {
+        
+        ret = [db executeUpdate:replaceSQl,self.name,@(self.age),self.sex,self.QQnumber,self.phoneNumber,self.weixinNumber,self.headImagePath,@(self.updateDate),lastName];
+    }];
+    
+    return ret;
+
+}
+
 + (BOOL)deleteFromDataBaseByName:(NSString *) name
 {
     NSString * deleteSQl = @"DELETE FROM T_PersonList WHERE name = ?";
